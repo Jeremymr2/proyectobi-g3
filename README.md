@@ -13,18 +13,23 @@
 
 > Para ejecutar el proyecto es necesario instalar python 3.10.x y pip
 
+Clonamos el repositorio:
+```sh
+git clone https://github.com/Jeremymr2/proyectobi-g3.git
+```
+
 Instalamos la librería de virtualenv:
-```cmd
+```sh
 pip install virtualenv
 ```
 
 Creamos el entorno virtual:
-```cmd
+```sh
 virtualenv env
 ```
 
 Activamos el entorno virtual:
-```cmd
+```sh
 .\env\Scripts\activate
 ```
 
@@ -32,7 +37,7 @@ Activamos el entorno virtual:
 > Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 Procedemos con la instalación de paquetes:
-```cmd
+```sh
 pip install -r requirements.txt
 ```
 
@@ -45,7 +50,7 @@ Crearemos una base de datos en mysql mediante la query:
 CREATE DATABASE libreria_g3;
 ```
 
-Editamos los datos del archivo `settigns.py`, con las credenciales de nuestro mysql:
+Editamos los datos del archivo `settings.py`, con las credenciales de nuestro mysql:
 
 ```python
 DATABASES = {
@@ -62,12 +67,12 @@ DATABASES = {
 
 Procederemos con la migración. Abrimos una consola de comandos e ingresamos:
 
-``` cmd
+``` sh
 python manage.py migrate
 ```
 
 Luego ejecutamos la página:
-```cmd
+```sh
 python manage.py runserver
 ```
 
