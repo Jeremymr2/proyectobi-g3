@@ -5,13 +5,13 @@
 {% block contenido %}
 
 
-<div style="background-color: snow">
-    <br>
+<div>
+    <br> <br>
     <form enctype="multipart/form-data" class="col-4 p-3 m-auto"
         style="background-color:#FEF9E7 ; border-radius: 10px; border: 1px solid;" method="POST">
 
         {% csrf_token %}
-        <h3 class="text-center alert alert-warning"><i class="bi bi-book"></i> Modificar Libros</h3>
+        <h3 class="text-center alert alert-warning"><i class="bi bi-book"></i> Modificar Usuario</h3>
 
         {% for campo in formulario %}
         <div class="mb-3">
@@ -27,15 +27,20 @@
         <div class="col-12 help-text">{{ campo.errors }}</div>
         {% endfor %}
 
+        <div class="mb-3">
+            <label for="" class="form-label">Agregar Imagen</label>
+            <input type="file" class="form-control" name="imagen" id="imagen">
+        </div>
+
         <div style="text-align: center;">
-            <a name="" id="" class="btn btn-primary" href="{% url 'libros' %}" role="button"><i class="bi bi-skip-backward"></i> Regresar</a>
+            <a name="" id="" class="btn btn-primary" href="{% url 'usuarios' %}" role="button"><i class="bi bi-skip-backward"></i> Regresar</a>
             <button type="submit" class="btn btn-warning ml-2" name="btnRegistrar" value="Enviar informacion"><i
                 class="bi bi-check-square"></i>
-            Modificar libro</button>
+            Modificar usuario</button>
         </div>
         
     </form>
-    <br>
+    <br> <br>
 </div>
 
 
