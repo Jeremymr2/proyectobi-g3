@@ -15,28 +15,38 @@
 
 <div class="container-fluid row">
     <form enctype="multipart/form-data" class="col-4 p-3" method="post">
-
         {% csrf_token %}
         <h3 class="text-center alert alert-success"><i class="bi bi-book"></i> Registro de usuario</h3>
-
+    
         {% for campo in formulario %}
-        <div class="mb-3">
-            <label for="" class="form-label">{{ campo.label }}</label>
-            <input type="{{ campo.field.widget.input_type }}" class="form-control" name="{{ campo.name }}"
-                placeholder="{{campo.label}}" value="{{ campo.value | default:'' }}">
-        </div>
-        <div class="col-12 help-text">{{ campo.errors }}</div>
+            {% if campo.field.widget.input_type != 'checkbox' %}  <!-- Evita renderizar campos de tipo checkbox como combobox -->
+                <div class="mb-3">
+                    <label for="" class="form-label">{{ campo.label }}</label>
+                    {% if campo.field.choices %}  <!-- Verifica si el campo tiene opciones -->
+                        <select name="{{ campo.name }}" class="form-control">
+                            {% for value, label in campo.field.choices %}
+                                <option value="{{ value }}" {% if value == campo.value %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    {% else %}
+                        <input type="{{ campo.field.widget.input_type }}" class="form-control" name="{{ campo.name }}"
+                            placeholder="{{ campo.label }}" value="{{ campo.value | default:'' }}">
+                    {% endif %}
+                </div>
+                <div class="col-12 help-text">{{ campo.errors }}</div>
+            {% endif %}
         {% endfor %}
-
+    
         <div class="mb-3">
             <label for="" class="form-label">Imagen</label>
             <input type="file" class="form-control" name="imagen" id="imagen">
         </div>
-        
-        <button type="submit" class="btn btn-primary" name="btnRegistrar" value="Enviar informacion"><i
-                class="bi bi-save2-fill"></i>
-            Registrar usuario</button>
+    
+        <button type="submit" class="btn btn-primary" name="btnRegistrar" value="Enviar informacion">
+            <i class="bi bi-save2-fill"></i> Registrar usuario
+        </button>
     </form>
+    
 
     <div class="col-8 p-3">
         <table class="table">
@@ -46,6 +56,7 @@
                     <th>Foto</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
+                    <th>Tipo de acceso</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -59,8 +70,9 @@
                     <td><img src="data:image/jpeg;base64,{{imagen}}" alt="Imagen"></td>
                     {% endif %}
                     {% endfor %}
-                    <td>{{usuario.nombre}}</td>
+                    <td>{{usuario.nombre}}</td>                    
                     <td>{{usuario.apellido}}</td>
+                    <td>{{usuario.acceso}}</td>
                     <td>
                         <a href="{% url 'editar_usuario' usuario.dni%}" class="btn btn-small btn-warning"><i
                                 class="bi bi-pencil-square"></i></a>

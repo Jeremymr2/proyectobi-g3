@@ -16,9 +16,15 @@ class Libro(models.Model):
         return fila
     
 class Usuario(models.Model):
+    CHOICES = (
+            ('Administrador', 'Administrador'),
+            ('Usuario', 'Usuario'),            
+        )
+
     dni = models.CharField(primary_key=True,max_length=8)
     nombre = models.CharField(max_length=100)
     apellido = models.CharField(max_length=100)
+    acceso = models.CharField(max_length=100, verbose_name = "Tipo de acceso", null=True, choices=CHOICES)    
 
     def __str__(self):
         return f"{self.dni}: {self.nombre} {self.apellido}"

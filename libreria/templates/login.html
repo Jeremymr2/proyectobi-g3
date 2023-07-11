@@ -43,7 +43,8 @@
                                     <div id="camera-container">
                                         <video id="video-feed" width="320" height="240" autoplay></video>
                                         <canvas id="canvas" width="320" height="240" style="display: none;"></canvas>
-                                    </div>                                                                      
+                                    </div>   
+                                                                                                  
                                 </div>
 
                                 <div class="card-footer" style="background-color: aliceblue;">
@@ -54,12 +55,14 @@
                                         <input type="hidden" name="dni" id="dni" value="">
                                         <input type="hidden" name="nombre" id="nombre" value="">
                                         <input type="hidden" name="apellido" id="apellido" value="">
+                                        <input type="hidden" name="acceso" id="acceso" value="">
                                         <input type="hidden" name="token" id="token" value="0">                       
                                         <input type="submit" class="btn btn-primary rounded-pill btn-block w-50"
                                             name="loginid" value="Iniciar sesión" id="loginid" style="margin: 0 auto; font-size: 1.5em;" hidden>                                                                                                  
                                     </form>  
                                     
                                 </div>
+                                
 
                             </div>
                         </div>
@@ -134,12 +137,14 @@
                         var dni = document.getElementById("dni");
                         var nombre = document.getElementById("nombre");
                         var apellido = document.getElementById("apellido");
+                        var acceso = document.getElementById("acceso");
                         var token = document.getElementById("token");
                         var miH4 = document.getElementById("miH4");
                         token.value = captureResponse.token
                         dni.value = captureResponse.usuario.id
                         nombre.value = captureResponse.usuario.nombre
                         apellido.value = captureResponse.usuario.apellido
+                        acceso.value = captureResponse.usuario.acceso
                         miH4.hidden = true;
                         boton.removeAttribute("hidden");                        
                     } else {
@@ -148,11 +153,7 @@
                 }
             });
         }
-        setTimeout(sendImage, 1000);
-        /*
-        setTimeout(function() {
-           setInterval(senImage, 5000);
-        }, 10000);*/
+        setTimeout(sendImage, 1000);        
 
     </script>
 

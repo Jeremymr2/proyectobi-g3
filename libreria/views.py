@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.http import JsonResponse
+from django.contrib import messages
 from .models import Libro
 from .models import Usuario
 from .models import ImagenUsuario
@@ -41,9 +42,10 @@ def usuarios(request):
         dni = formulario.cleaned_data['dni']
         nombre = formulario.cleaned_data['nombre']
         apellido = formulario.cleaned_data['apellido']
+        acceso = formulario.cleaned_data['acceso']
         imagen = request.FILES['imagen']
         usuario = (dni,nombre,apellido)
-        nuevoUsuario = Usuario(dni=dni,nombre=nombre,apellido=apellido)
+        nuevoUsuario = Usuario(dni=dni,nombre=nombre,apellido=apellido,acceso=acceso)
         # Transforma binario a jpg
         # Abrir la imagen utilizando PIL
         imagen_pil = Image.open(imagen)
@@ -68,9 +70,10 @@ def editar_usuario(request,dni):
         dni = formulario.cleaned_data['dni']
         nombre = formulario.cleaned_data['nombre']
         apellido = formulario.cleaned_data['apellido']
+        acceso = formulario.cleaned_data['acceso']
         imagen = request.FILES['imagen']
         usuario = (dni,nombre,apellido)
-        actualUsuario = Usuario(dni=dni,nombre=nombre,apellido=apellido)
+        actualUsuario = Usuario(dni=dni,nombre=nombre,apellido=apellido,acceso=acceso)
         # Transforma binario a jpg
         # Abrir la imagen utilizando PIL
         imagen_pil = Image.open(imagen)
@@ -137,7 +140,6 @@ def eliminar(request,id):
 def login(request):
     scoreInden = 0
     if request.method == 'POST':
-        
         if request.POST.get('token') == "123":
             iniciarSesion()
             return render(request, 'vistas/inicio.html')
@@ -153,12 +155,18 @@ def login(request):
             image = Image.open(io.BytesIO(image_data))
             image = recortar_cara(image)
             image = image.resize((160, 160))
-            bandera, usuario, scoreInden = verificarImagenBD(image,score)
-            tokenTemp= '0'
+            bandera, usuario, scoreInden = verificarImagenBD(image, score)
+            tokenTemp = '0'
             if bandera:
                 tokenTemp = '123'
+                # Almacenar los datos del usuario en la sesión
+                request.session['dni_usuario'] = usuario['id']
+                request.session['nombre_usuario'] = usuario['nombre']
+                request.session['apellido_usuario'] = usuario['apellido']                
+                request.session['acceso_usuario'] = usuario['acceso']                
 
-        return JsonResponse({'success': bandera, 'usuario':usuario, 'Score':scoreInden, 'token':tokenTemp})
+        return JsonResponse({'success': bandera, 'usuario': usuario, 'Score': scoreInden, 'token': tokenTemp})
+
     cerrarSesion()
     return render(request, 'login.html')
 

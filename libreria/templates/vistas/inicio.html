@@ -11,7 +11,9 @@
           
           <div class="p-3 bg-light">
             <div class="container">
-              <h1 class="bg-dark text-white py-4 text-center display-3">Bienvenid@ al sitio de la librería del Grupo 3</h1>
+                {% if request.session.nombre_usuario %}
+                    <h1 class="bg-dark text-white py-4 text-center display-3">Bienvenid@ {{ request.session.nombre_usuario }} {{ request.session.apellido_usuario }} <br> al sitio de la librería del Grupo 3</h1>                    
+                {% endif %}              
               <p class="lead">Acá puede gestionar todos los libros que guste</p>
               <hr class="my-2">
               <p class="lead">

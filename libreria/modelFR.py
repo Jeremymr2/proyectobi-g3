@@ -9,13 +9,14 @@ from .loaded_model import load_model_once
 import cv2
 
 def obtenerUsuariosFotos(model):
-    datos = Usuario.objects.select_related('imagenes').values('dni', 'nombre', 'apellido', 'imagenes__imagen')
+    datos = Usuario.objects.select_related('imagenes').values('dni', 'nombre', 'apellido', 'acceso' ,'imagenes__imagen')
     diccionarioUsuarios = {}
 
     for usuario in datos:
         if usuario['dni'] not in diccionarioUsuarios:
             diccionarioUsuarios[usuario['dni']] = {'nombre':usuario['nombre'],
                                                           'apellido':usuario['apellido'],
+                                                          'acceso':usuario['acceso'],
                                                           'fotos':[]}
         if usuario['imagenes__imagen'] != b'':
             img = usuario['imagenes__imagen']

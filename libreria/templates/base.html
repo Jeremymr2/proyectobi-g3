@@ -30,14 +30,16 @@
     <header>
         <!-- place navbar here -->
         <nav class="navbar navbar-expand navbar-dark bg-dark ">
-            <div class="nav navbar-nav">
+            <div class="nav navbar-nav">                                      
                 <a class="nav-item nav-link active" href="{%url 'inicio'%}">Inicio</a>
-                <a class="nav-item nav-link active" href="{%url 'libros'%}">Libros</a>
-                <a class="nav-item nav-link active" href="{%url 'usuarios'%}">Usuarios</a>
+                <a class="nav-item nav-link active" href="{%url 'libros'%}">Libros</a> 
+                {% if request.session.acceso_usuario == "Administrador" %}
+                    <a class="nav-item nav-link active" href="{%url 'usuarios'%}">Usuarios</a>
+                {% endif %}                
                 <a class="nav-item nav-link active" href="{%url 'nosotros'%}">Nosotros</a>
                 <a class="nav-item nav-link " href="{%url 'login'%}">Cerrar Sesión</a>
             </div>
-            
+           
         </nav>
     </header>
 
